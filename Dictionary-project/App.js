@@ -16,24 +16,35 @@ async function searchword(data) {
     console.log("error-", e);
   }
 }
-
+// create card for each figure of speech
 function createCard(partOfSpeech, definitions) {
   const card = document.createElement("div");
   card.classList.add("card");
 
   const partOfSpeechElement = document.createElement("h3");
-  partOfSpeechElement.textContent = partOfSpeech;
+  partOfSpeechElement.textContent = partOfSpeech.toUpperCase();
   card.appendChild(partOfSpeechElement);
+
+  const list = document.createElement("ul");
+  card.appendChild(list);
   
   definitions.forEach(definition => {
-    const definitionElement = document.createElement("p");
-    definitionElement.textContent = `Definition: ${definition.definition},   Example: ${definition.example}`;
-    card.appendChild(definitionElement);
+    if(definition.example!=undefined)
+    {
+
+    
+    const li = document.createElement("li");
+    li.textContent=`Definition: ${definition.definition}`;
+    const exampleElement = document.createElement("p");
+    exampleElement.textContent = `Example: ${definition.example}`;
+    li.appendChild(exampleElement);
+    card.append(li);
+    }
   });
 
   return card;
 }
-
+// return card and inject it into the html
 function showMeaning(jsonData) {
   const resultsContainer = document.querySelector(".results-container");
   resultsContainer.innerHTML = ""; // Clear previous results
@@ -49,54 +60,3 @@ function showMeaning(jsonData) {
     console.log("No results found.");
   }
 }
-
-
-
-
-
-// const url = "https://api.dictionaryapi.dev/api/v2/entries/en/";
-// let button = document.querySelector(".search");
-// button.addEventListener("click", async function() {
-//   let search = document.querySelector(".word");
-//   let word = search.value;
-//   let apiAns = await searchword(word);
-//   showMeaning(apiAns);
-// });
-
-// async function searchword(data) {
-//   try {
-//     const res = await fetch(url + data);
-//     const ans = await res.json();
-//     return ans;
-//   } catch (e) {
-//     console.log("error-", e);
-//     //return -1;
-//   }
-// }
-
-// function showMeaning(jsonData) {
-//   console.log(jsonData);
-//   console.log("this is json data");
-  
-//   if (Array.isArray(jsonData)) {
-//     const word = jsonData[0].word;
-//     const phonetic = jsonData[0].phonetic;
-//     const origin = jsonData[0].origin;
-//     const meanings = jsonData[0].meanings;
-
-//     console.log("Word:", word);
-//     console.log("Phonetic:", phonetic);
-//     console.log("Origin:", origin);
-
-//     meanings.forEach(meaning => {
-//       console.log("Part of speech:", meaning.partOfSpeech);
-//       meaning.definitions.forEach(definition => {
-//         console.log("Definition:", definition.definition);
-//         console.log("Example:", definition.example);
-//       });
-//     });
-//   } else {
-//     console.log("No results found.");
-//   }
-// }
-
